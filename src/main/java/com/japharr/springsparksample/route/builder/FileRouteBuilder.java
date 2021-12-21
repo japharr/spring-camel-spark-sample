@@ -1,5 +1,6 @@
 package com.japharr.springsparksample.route.builder;
 
+import com.japharr.springsparksample.route.FileDbSyncProcessor;
 import com.japharr.springsparksample.route.FileDescProcessor;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class FileRouteBuilder extends RouteBuilder {
   private final FileDescProcessor fileDescProcessor;
+  private final FileDbSyncProcessor fileDbSyncProcessor;
 
   @Override
   public void configure() throws Exception {
@@ -28,5 +30,9 @@ public class FileRouteBuilder extends RouteBuilder {
     from("{{routes.directory.source}}")
         .process(fileDescProcessor)
         .to("{{routes.directory.flume}}");
+
+    from("{{file.transfer.schedule}}")
+        .process(fileDbSyncProcessor)
+        .end();
   }
 }

@@ -28,9 +28,11 @@ public class FileDescProcessor implements Processor {
     File file = exchange.getIn().getBody(File.class);
 
     if(file != null && file.exists()) {
+      log.info("file exist!");
       Path path = Paths.get(file.toURI());
       long bytes = Files.size(path);
 
+      log.info("Saving file: {}, to db", filename);
       fileDescRepository.save(new FileDesc(filename, bytes));
     }
   }
