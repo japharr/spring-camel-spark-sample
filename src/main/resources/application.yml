@@ -1,0 +1,4 @@
+spark:
+  app:
+    name: Spring Spark Word Count Application
+  master: local[*]
