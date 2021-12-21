@@ -15,6 +15,12 @@
 	<description>Sample project for Spring Boot with Spark</description>
 	<properties>
 		<java.version>11</java.version>
+
+		<spark_2.12.version>3.1.2</spark_2.12.version>
+		<hadoop-hdfs.version>3.3.1</hadoop-hdfs.version>
+		<hadoop-core.version>1.2.1</hadoop-core.version>
+
+		<mongodb-driver-sync.version>4.4.0</mongodb-driver-sync.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -29,6 +35,42 @@
 			<groupId>org.apache.camel.springboot</groupId>
 			<artifactId>camel-spring-boot-starter</artifactId>
 			<version>3.13.0</version>
+		</dependency>
+
+		<!-- Spark -->
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-core_2.12</artifactId>
+			<version>${spark_2.12.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-sql_2.12</artifactId>
+			<version>${spark_2.12.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-streaming_2.12</artifactId>
+			<version>${spark_2.12.version}</version>
+		</dependency>
+
+		<!-- Hadoop -->
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-core</artifactId>
+			<version>${hadoop-core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-hdfs</artifactId>
+			<version>${hadoop-hdfs.version}</version>
+		</dependency>
+
+		<!-- Mongodb Spark Connector -->
+		<dependency>
+			<groupId>org.mongodb.spark</groupId>
+			<artifactId>mongo-spark-connector_2.12</artifactId>
+			<version>3.0.1</version>
 		</dependency>
 
 		<dependency>
