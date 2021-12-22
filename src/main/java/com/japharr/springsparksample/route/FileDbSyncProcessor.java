@@ -9,6 +9,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.List;
 
 @Slf4j
@@ -24,7 +25,13 @@ public class FileDbSyncProcessor implements Processor {
     List<FileDesc> pendingFiles = fileDescRepository.findAllBySyncedOnIsNull();
     log.info("FileDbSyncProcessor: pending-files: {}", pendingFiles.size());
     if(!pendingFiles.isEmpty()) {
-      pendingFiles.forEach(fileDbSyncService::sync);
+      pendingFiles.forEach(r -> {
+        boolean result = fileDbSyncService.sync(r);
+        if(result) {
+          r.setSyncedOn(Instant.now());
+          fileDescRepository.save(r);
+        }
+      });
     }
     log.info("FileDbSyncProcessor completed successfully.");
   }
