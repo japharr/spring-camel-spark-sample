@@ -45,13 +45,17 @@ public class FileDbSyncService {
     long fileSize = fileRdd.map(r -> getFileSize(r._1)).first();
     log.info("HDFS file-size: {}", fileSize);
 
-    // Check if the file-size is equal to the file-size in the DB
+    // Check if the file-size is equal to the file-size in the DB within -+5
     if(Math.abs(fileSize - desc.getSize()) <= 5) {
       JavaRDD<String> fileContentRdd = sc.textFile(filePath);
 
+      // Split the csv file to field[index]-value and create a document
       JavaRDD<Document> documents = fileContentRdd.map(r -> {
         Document entity = new Document("_id", new ObjectId());
-        entity.append("name", r);
+        String[] result = r.split(",");
+        for(int i=0; i<result.length; i++) {
+          entity.append(String.format("field%d", i+1), result[i]);
+        }
         return entity;
       });
 
