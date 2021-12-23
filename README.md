@@ -5,7 +5,7 @@ This simple Spring-Boot application demonstrates the use of Apache Spark to read
 It makes use of the following dependencies:
 
 - Apache Camel 
-- Apache Spark 
+- Apache Spark
 - Hadoop File System (HDFS)
 - Mongodb 
 - Java 11 
@@ -22,3 +22,6 @@ Provide the necessary configuration parameters in the application.properties
 ````
 ./mvnw spring-boot:run
 ````
+
+### Using Apache Flume
+Modify the flume agent configuration file in '/flume' and provide the spooling directory on your file-system that will match the 'routes.directory.flume' property in the 'application.properties', then start a flume agent using the configuration file.
