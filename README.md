@@ -23,5 +23,25 @@ Provide the necessary configuration parameters in the application.properties
 ./mvnw spring-boot:run
 ````
 
-### Using Apache Flume
-Modify the flume agent configuration file in '/flume' and provide the spooling directory on your file-system that will match the 'routes.directory.flume' property in the 'application.properties', then start a flume agent using the configuration file.
+### How it works
+An Apache Camel route is configured to listen for files on a specified directory. On siting a new file, the Apache Camel route stores the file properties like filename, size to a Mongo database collection. The Apache Camel route then moves the file to another directory being listening by Apache Flume agent. The Apache Flume agent pick the file and transfer it to a specified HDFS directory. 
+
+At interval, an Apache Camel scheduler queries the Mongo database collection for pending files, in case there are any, its read the HDFS directory using Apache Spark for the file content and persist it to another Mongo database collection.
+
+### Installation
+#### Apache Hadoop
+Install and configure Hadoop using Homebrew (on Mac)
+````
+brew install hadoop
+````
+
+#### Apache Flume
+Install and configure Flume using Homebrew (on Mac)
+````
+brew install flume
+````
+
+Start a flume-agent using the configuration file (agent.conf) in the flume directory
+````
+flume-ng agent -n agent -c $FLUME_CONF_DIR -f agent.conf -Dflume.root.logge=INFO
+````
